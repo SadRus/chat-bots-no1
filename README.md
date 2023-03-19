@@ -39,6 +39,15 @@ Running example with arguments:
 
 ### Example
 After running the script, you can check its work yourself by submitting the work for review and then canceling it.
+- Send for review  
+![image](https://user-images.githubusercontent.com/79669407/226210713-03f99181-eb63-471b-8a27-c6f6468d623e.png)  
+- Return it back  
+![image](https://user-images.githubusercontent.com/79669407/226210783-fe2f5c43-56ba-46f4-a82b-c446e5efd7e8.png)  
+- Check telegram  
+![image](https://user-images.githubusercontent.com/79669407/226210848-b462c3a6-5a72-4e42-afb8-48ce11d72448.png)
+
+
+
 
 
 
