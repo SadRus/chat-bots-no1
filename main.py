@@ -47,9 +47,11 @@ def main():
             response.raise_for_status()
             print(response.text)
         except requests.exceptions.ReadTimeout:
-            print('ReadTimeout')
+            print('ReadTimeout. Trying to reconnect...')
+            continue
         except requests.exceptions.ConnectionError:
-            print('ConnectionError')
+            print('ConnectionError. Trying to reconnect...')
+            continue
 
         attempt_description = json.loads(response.text)
 
@@ -66,8 +68,8 @@ def main():
                     chat_id=tg_chat_id,
                     text=(f'У вас проверили работу "{lesson_title}".\n'
                           f'{lesson_url}\n\n'
-                          'К сожалению в работе есть ошибки.'
-                          ' Исправляйте и возвращайтесь.')
+                          'К сожалению в работе есть ошибки. '
+                          'Исправляйте и возвращайтесь.')
                 )
             else:
                 bot.send_message(
