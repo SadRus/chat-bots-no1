@@ -59,9 +59,10 @@ def main():
             timestamp = attempt_description['timestamp_to_request']
         else:
             timestamp = attempt_description['last_attempt_timestamp']
-            lesson_title = attempt_description['new_attempts'][-1]['lesson_title']
-            lesson_url = attempt_description['new_attempts'][-1]['lesson_url']
-            attempt_is_negative = attempt_description['new_attempts'][-1]['is_negative']
+            last_attempt = attempt_description['new_attempts']
+            lesson_title = last_attempt[-1]['lesson_title']
+            lesson_url = last_attempt[-1]['lesson_url']
+            attempt_is_negative = last_attempt[-1]['is_negative']
 
             if attempt_is_negative:
                 bot.send_message(
