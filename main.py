@@ -1,5 +1,4 @@
 import argparse
-import json
 import os
 import requests
 import telegram
@@ -24,6 +23,10 @@ def create_parser():
 
 
 def main():
+    load_dotenv()
+    parser = create_parser()
+    args = parser.parse_args()
+
     dvmn_token = os.getenv('DVMN_TOKEN')
     tg_bot_token = os.getenv('TG_BOT_TOKEN')
     tg_chat_id = args.chat_id
@@ -45,15 +48,13 @@ def main():
                 params=payload,
             )
             response.raise_for_status()
-            print(response.text)
         except requests.exceptions.ReadTimeout:
-            print('ReadTimeout. Trying to reconnect...')
             continue
         except requests.exceptions.ConnectionError:
             print('ConnectionError. Trying to reconnect...')
             continue
 
-        attempt_description = json.loads(response.text)
+        attempt_description = response.json()
 
         if attempt_description['status'] == 'timeout':
             timestamp = attempt_description['timestamp_to_request']
@@ -82,8 +83,4 @@ def main():
 
 
 if __name__ == '__main__':
-    load_dotenv()
-    parser = create_parser()
-    args = parser.parse_args()
-
     main()
