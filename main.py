@@ -1,4 +1,5 @@
 import argparse
+import logging
 import os
 import requests
 import telegram
@@ -23,6 +24,9 @@ def create_parser():
 
 
 def main():
+    logging.basicConfig(level=logging.DEBUG)
+    logging.info('bot started')
+
     load_dotenv()
     parser = create_parser()
     args = parser.parse_args()
@@ -50,8 +54,8 @@ def main():
             response.raise_for_status()
         except requests.exceptions.ReadTimeout:
             continue
-        except requests.exceptions.ConnectionError:
-            print('ConnectionError. Trying to reconnect...')
+        except requests.exceptions.ConnectionError as e:
+            logging.exception(e)
             continue
 
         attempt_description = response.json()
