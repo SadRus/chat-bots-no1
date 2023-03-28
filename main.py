@@ -6,12 +6,13 @@ import telegram
 
 from dotenv import load_dotenv
 from time import time
+from logging.handlers import RotatingFileHandler
 
 
-class TelegramLogsHandler(logging.Handler):
+class TelegramLogsHandler(RotatingFileHandler):
 
-    def __init__(self, tg_bot, chat_id):
-        super().__init__()
+    def __init__(self, filename, tg_bot, chat_id, **kwargs):
+        super().__init__(filename, **kwargs)
         self.chat_id = chat_id
         self.tg_bot = tg_bot
 
@@ -30,8 +31,11 @@ def create_logger(tg_bot, chat_id):
     logger = logging.getLogger('name_logger')
     logger.setLevel(logging.INFO)
     handler = TelegramLogsHandler(
+        'bot.log',
         tg_bot=tg_bot,
         chat_id=chat_id,
+        maxBytes=200,
+        backupCount=2,
     )
     logger.addHandler(handler)
     return logger
@@ -83,6 +87,7 @@ def main():
             continue
         except requests.exceptions.ConnectionError as e:
             logging.exception(e)
+            logger.exception(e)
             continue
 
         attempt_description = response.json()
