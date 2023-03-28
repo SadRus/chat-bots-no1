@@ -17,6 +17,7 @@ class TelegramLogsHandler(RotatingFileHandler):
         self.tg_bot = tg_bot
 
     def emit(self, record):
+        super().emit(record)
         log_entry = self.format(record)
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
@@ -34,6 +35,7 @@ def create_logger(tg_bot, chat_id):
         'bot.log',
         tg_bot=tg_bot,
         chat_id=chat_id,
+        mode='a',
         maxBytes=200,
         backupCount=2,
     )
@@ -67,7 +69,7 @@ def main():
     tg_bot = telegram.Bot(token=tg_bot_token)
 
     logger = create_logger(tg_bot, tg_chat_id)
-    logger.info('Bot started')
+    logging.info('Bot started')
 
     url = 'https://dvmn.org/api/long_polling/'
     headers = {
