@@ -25,17 +25,16 @@ class TelegramLogsHandler(RotatingFileHandler):
 def create_logger(tg_bot, chat_id):
     logging.basicConfig(
         level=logging.DEBUG,
-        filename='bot.log',
+        filename='/var/log/bot.log',
         filemode='w',
         format="%(asctime)s %(process)s %(levelname)s %(message)s",
         )
     logger = logging.getLogger('name_logger')
     logger.setLevel(logging.INFO)
     handler = TelegramLogsHandler(
-        'bot.log',
+        '/var/log/bot.log',
         tg_bot=tg_bot,
         chat_id=chat_id,
-        mode='a',
         maxBytes=200,
         backupCount=2,
     )
