@@ -69,7 +69,7 @@ def main():
     tg_bot = telegram.Bot(token=tg_bot_token)
 
     logger = create_logger(tg_bot, tg_chat_id)
-    logging.info('Bot started')
+    logger.info('Bot started')
 
     url = 'https://dvmn.org/api/long_polling/'
     headers = {
@@ -87,13 +87,11 @@ def main():
             response.raise_for_status()
         except requests.exceptions.HTTPError as e:
             logging.exception(e)
-            logger.exception(e)
             continue
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError as e:
             logging.exception(e)
-            logger.exception(e)
             continue
 
         attempt_description = response.json()
