@@ -83,6 +83,10 @@ def main():
                 params=payload,
             )
             response.raise_for_status()
+        except requests.exceptions.HTTPError as e:
+            logging.exception(e)
+            logger.exception(e)
+            continue
         except requests.exceptions.ReadTimeout:
             continue
         except requests.exceptions.ConnectionError as e:
