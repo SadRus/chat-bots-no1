@@ -6,7 +6,7 @@
 4. [Enviroment](#enviroment)
 5. [Usage](#usage)
 6. [Example](#example)
-7. [Deployment](#deployment)
+7. [Deployment](#deployment-on-a-server)
 
 ### Description 
 
@@ -56,18 +56,19 @@ After running the script, you can check its work yourself by submitting the work
 - Check telegram  
 ![image](https://user-images.githubusercontent.com/79669407/226210848-b462c3a6-5a72-4e42-afb8-48ce11d72448.png)
 
-### Deployment
+### Deployment on a server
 
 1. Log in to a server via username, server IP and password:  
 `ssh {username}@{server IP}`
 2. Clone repository. Advise to put the code in the `/opt/{project}/` folder
-3. Create a virtual enviroment, use python(or python3):  
+3. Put into the folder file with virtual enviroments `.env`
+4. Create a virtual enviroment, use python(or python3):  
 `python -m venv venv`
-4. Install requirements, use pip(or pip3):  
+5. Install requirements, use pip(or pip3):  
  `pip install -r requirements`
-5. Create a file(unit) in the `/etc/systemd/system` called like name project, e.g. `chat-bots-no1.service`, use:  
-`touch chat-bots-no1.service`
-6. Write the following config into it:  
+6. Create a file(unit) in the `/etc/systemd/system` called like name project, e.g. `chat-bots-no1.service`, use:  
+`touch /etc/systemd/system/chat-bots-no1.service`
+7. Write the following config into it:  
     * Execstart - for start the sevice
     * Restart - auto-restart the service if it crashes
     * WantedBy - for start service within server
@@ -79,10 +80,12 @@ Restart=always
 [Install]
 WantedBy=multi-user.target
 ```  
-7. Include the unit in the autoload list  
+8. Include the unit in the autoload list  
 `systemctl enable echobot-example`
-8. Reload systemctl  
+9. Reload systemctl  
 `systemctl daemon-reload`
-9. Start the unit  
+10. Start the unit  
 `systemctl start chat-bots-no1`
-10. Logs will writing into `/var/log/bot.log`
+11. Logs will writing into `/var/log/bot.log`
+12. You can check the process:  
+`ps -aux | grep chat-bots-no1`
