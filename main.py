@@ -22,8 +22,8 @@ class TelegramLogsHandler(RotatingFileHandler):
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-def create_logger(tg_bot, chat_id):
-    logs_full_path = os.path.join(os.getenv('LOGS_FOLDER'), 'bot.log')
+def create_logger(tg_bot, chat_id, dest_folder, max_bytes=200, backup_count=2):
+    logs_full_path = os.path.join(dest_folder, 'bot.log')
     logging.basicConfig(
         level=logging.INFO,
         filename=logs_full_path,
@@ -36,8 +36,8 @@ def create_logger(tg_bot, chat_id):
         logs_full_path,
         tg_bot=tg_bot,
         chat_id=chat_id,
-        maxBytes=200,
-        backupCount=2,
+        maxBytes=max_bytes,
+        backupCount=backup_count,
     )
     logger.addHandler(handler)
     return logger
@@ -55,6 +55,30 @@ def create_parser():
         default=os.getenv('TG_CHAT_ID'),
         help='yours telegram chat id/user id',
     )
+    parser.add_argument(
+        '-d',
+        '--dest_folder',
+        type=str,
+        metavar='',
+        default=os.getenv('LOGS_FOLDER'),
+        help='destination folder for bot logs service',
+    )
+    parser.add_argument(
+        '-m',
+        '--max_bytes',
+        type=int,
+        metavar='',
+        default=200,
+        help='maximum size bot.log file',
+    )
+    parser.add_argument(
+        '-bc',
+        '--backup_count',
+        type=int,
+        metavar='',
+        default=2,
+        help='bot logs backup counts',
+    )
     return parser
 
 
@@ -68,7 +92,13 @@ def main():
     tg_chat_id = args.chat_id
     tg_bot = telegram.Bot(token=tg_bot_token)
 
-    logger = create_logger(tg_bot, tg_chat_id)
+    logger = create_logger(
+        tg_bot,
+        tg_chat_id,
+        dest_folder=args.dest_folder,
+        max_bytes=args.max_bytes,
+        backup_count=args.backup_count,
+    )
     logger.info('Bot started')
 
     url = 'https://dvmn.org/api/long_polling/'
