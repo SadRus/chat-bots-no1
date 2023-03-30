@@ -25,11 +25,6 @@ class TelegramLogsHandler(RotatingFileHandler):
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
-def create_logger(tg_bot, chat_id, dest_folder, max_bytes=200, backup_count=2):
-
-    return logger
-
-
 def create_parser():
     parser = argparse.ArgumentParser(
         description='Telegram bot sending tasks notifications',
