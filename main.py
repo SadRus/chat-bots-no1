@@ -9,6 +9,9 @@ from logging.handlers import RotatingFileHandler
 from time import time
 
 
+logger = logging.getLogger('tg_bot_logger')
+
+
 class TelegramLogsHandler(RotatingFileHandler):
 
     def __init__(self, filename, tg_bot, chat_id, **kwargs):
@@ -23,23 +26,7 @@ class TelegramLogsHandler(RotatingFileHandler):
 
 
 def create_logger(tg_bot, chat_id, dest_folder, max_bytes=200, backup_count=2):
-    logs_full_path = os.path.join(dest_folder, 'bot.log')
-    logging.basicConfig(
-        level=logging.INFO,
-        filename=logs_full_path,
-        filemode='w',
-        format="%(asctime)s %(process)s %(levelname)s %(message)s",
-        )
-    logger = logging.getLogger('tg_bot_logger')
-    logger.setLevel(logging.INFO)
-    handler = TelegramLogsHandler(
-        logs_full_path,
-        tg_bot=tg_bot,
-        chat_id=chat_id,
-        maxBytes=max_bytes,
-        backupCount=backup_count,
-    )
-    logger.addHandler(handler)
+
     return logger
 
 
@@ -92,13 +79,23 @@ def main():
     tg_chat_id = args.chat_id
     tg_bot = telegram.Bot(token=tg_bot_token)
 
-    logger = create_logger(
-        tg_bot,
-        tg_chat_id,
-        dest_folder=args.dest_folder,
-        max_bytes=args.max_bytes,
-        backup_count=args.backup_count,
+    logs_full_path = os.path.join(args.dest_folder, 'bot.log')
+    logging.basicConfig(
+        level=logging.INFO,
+        filename=logs_full_path,
+        filemode='w',
+        format="%(asctime)s %(process)s %(levelname)s %(message)s",
+        )
+    logger.setLevel(logging.INFO)
+    handler = TelegramLogsHandler(
+        logs_full_path,
+        tg_bot=tg_bot,
+        chat_id=tg_chat_id,
+        maxBytes=args.max_bytes,
+        backupCount=args.backup_count,
     )
+    logger.addHandler(handler)
+
     logger.info('Bot started')
 
     url = 'https://dvmn.org/api/long_polling/'
