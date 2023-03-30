@@ -32,6 +32,8 @@ You needs to create .env file for enviroment variables in main folder.
 - `TG_BOT_TOKEN` - needs register a bot in telegram via @BotFather: https://t.me/BotFather
 - `TG_CHAT_ID` - yours chat_id / user_id, you can check it via @userinfobot: https://t.me/userinfobot
 - `LOGS_FOLDER` - destination folder for logs
+- `LOGS_MAX_SIZE` - bot logs file maximum size in bytes
+- `LOGS_BACKUP_COUNT` - bot logs file backup count
 
 ### Usage
 Before start the script, needs activate your bot via `/start` command in chat.
@@ -42,7 +44,11 @@ python(or python3) main.py
 ```
 Alternate arguments:
 - **-h / --help** - display shortly description of script and arguments.
-- **-ci / chat_id** - yours chat_id / user_id (by default use enviroment variable 'TG_CHAT_ID').  
+- **-ci / --chat_id** - yours chat_id / user_id (by default use enviroment variable 'TG_CHAT_ID').  
+- **-d / --dest_folder** - destination folder for bot logs
+- **-m / --max_bytes** - bot logs file maximum size in bytes
+- **-bc / --backup_count** - logs file backup count
+
 
 Running example with arguments:  
 `python main.py --ci 123456`
