@@ -7,6 +7,7 @@
 5. [Usage](#usage)
 6. [Example](#example)
 7. [Deployment](#deployment-on-a-server)
+8. [Deployment on a server via docker](#deployment-on-a-server-via-docker)
 
 ### Description 
 
@@ -95,7 +96,22 @@ WantedBy=multi-user.target
 11. Logs will writing into `/var/log/bot.log`
 12. You can check the process, if the process is running it will show:  
 `ps -aux | grep chat-bots-no1`
+
+
 ![image](https://user-images.githubusercontent.com/79669407/228650981-e6f8016a-40e6-4c4f-88ef-a3df6969d2fc.png)
-13. if the bot is running it will send a message:  
+14. if the bot is running it will send a message:  
 ![image](https://user-images.githubusercontent.com/79669407/228651407-0473a366-5cab-4ac8-a346-8e8435ce402d.png)
+
+<a id="deployment-on-a-server-via-docker"></a>
+### Deployment on a server via Docker
+
+1. Docker must be installed https://docs.docker.com/engine/install/  
+2. Download docker image from https://hub.docker.com/repository/docker/sadrus/chatbot_no1/general  
+3. Run the docker container with next arguments:  
+```docker run -d --restart unless-stopped --env-file .env --name=chatbot_no1 chatbot:latest```  
+`-d` - detach mode  
+`--restart unless-stopped` - restarting container after Docker daemon restart, except that when the container is stopped (manually or otherwise)  
+`--env-file` - put the path to the file with enviroment variables  
+`--name` - name for docker container  
+
 
