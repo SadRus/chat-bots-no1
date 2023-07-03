@@ -6,12 +6,12 @@
 4. [Enviroment](#enviroment)
 5. [Usage](#usage)
 6. [Example](#example)
-7. [Deployment](#deployment-on-a-server)
-8. [Deployment on a server via docker](#deployment-on-a-server-via-docker)
+7. [Deployment](#deployment)
+8. [Deployment with Docker](#deployment-with-docker) 
 
 ### Description 
 
-Create a telegram bot, that will send task notifications if code was reviewed by mentor.
+Create a telegram bot, that will send task notifications if code was reviewed by a mentor.
 
 ### Objective of project
 
@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 ### Enviroment
 
-You needs to create .env file for enviroment variables in main folder.
+Create .env file for enviroment variables in main folder.
 
 - `DVMN_TOKEN` - dvmn token, you can get it here: https://dvmn.org/api/docs/  
 - `TG_BOT_TOKEN` - needs register a bot in telegram via @BotFather: https://t.me/BotFather
@@ -37,7 +37,7 @@ You needs to create .env file for enviroment variables in main folder.
 - `LOGS_BACKUP_COUNT` - bot logs file backup count
 
 ### Usage
-Before start the script, needs activate your bot via `/start` command in chat.
+Before start the script, needs to activate your bot via `/start` command in a chat.
 
 From scripts folder:
 ```
@@ -55,7 +55,7 @@ Running example with arguments:
 `python main.py --ci 123456`
 
 ### Example
-After running the script, you can check its work yourself by submitting the work for review and then canceling it.
+After running the script, you can check how its work by submitting the lesson for review and then canceling it.
 - Send for review  
 ![image](https://user-images.githubusercontent.com/79669407/226210713-03f99181-eb63-471b-8a27-c6f6468d623e.png)  
 - Return it back  
@@ -63,9 +63,9 @@ After running the script, you can check its work yourself by submitting the work
 - Check telegram  
 ![image](https://user-images.githubusercontent.com/79669407/226210848-b462c3a6-5a72-4e42-afb8-48ce11d72448.png)
 
-### Deployment on a server
+### Deployment
 
-1. Log in to a server via username, server IP and password:  
+1. Log in to the server with username, server IP and password:  
 `ssh {username}@{server IP}`
 2. Clone repository. Advise to put the code in the `/opt/{project}/` folder
 3. Put into the folder file with virtual enviroments `.env`
@@ -75,7 +75,7 @@ After running the script, you can check its work yourself by submitting the work
  `pip install -r requirements`
 6. Create a file(unit) in the `/etc/systemd/system` called like name project, e.g. `chat-bots-no1.service`, use:  
 `touch /etc/systemd/system/chat-bots-no1.service`
-7. Write the following config into it:  
+7. Write the following config:  
     * Execstart - for start the sevice
     * Restart - auto-restart the service if it crashes
     * WantedBy - for start service within server
@@ -94,7 +94,7 @@ WantedBy=multi-user.target
 10. Start the unit  
 `systemctl start chat-bots-no1`
 11. Logs will writing into `/var/log/bot.log`
-12. You can check the process, if the process is running it will show:  
+12. You can check the process:  
 `ps -aux | grep chat-bots-no1`
 
 
@@ -103,7 +103,7 @@ WantedBy=multi-user.target
 ![image](https://user-images.githubusercontent.com/79669407/228651407-0473a366-5cab-4ac8-a346-8e8435ce402d.png)
 
 <a id="deployment-on-a-server-via-docker"></a>
-### Deployment on a server via Docker
+### Deployment with Docker
 
 1. Docker must be installed https://docs.docker.com/engine/install/  
 2. Download docker image from https://hub.docker.com/repository/docker/sadrus/chatbot_no1/general  
@@ -111,7 +111,7 @@ WantedBy=multi-user.target
 ```docker run -d --restart unless-stopped --env-file .env --name=chatbot_no1 chatbot:latest```  
 `-d` - detach mode  
 `--restart unless-stopped` - restarting container after Docker daemon restart, except that when the container is stopped (manually or otherwise)  
-`--env-file` - put the path to the file with enviroment variables  
-`--name` - name for docker container  
+`--env-file` - path to the file with enviroment variables  
+`--name` - name for the docker container  
 
 
